@@ -1,11 +1,12 @@
 import re
 import sys
 import textwrap
+from typing import Dict, TextIO
 
 import pprintpp
 
 
-def indent(text, prefix="    ", **kwargs):
+def indent(text: str, prefix: str = "    ", **kwargs) -> str:
     """
     Simple wrapper for the textwrap.indent() method but includes a
     default prefix
@@ -13,7 +14,7 @@ def indent(text, prefix="    ", **kwargs):
     return textwrap.indent(text, prefix=prefix, **kwargs)
 
 
-def dedent(text, should_strip=True):
+def dedent(text: str, should_strip: bool = True) -> str:
     """
     Dedents a paragraph after removing leading and trailing whitespace
 
@@ -22,10 +23,10 @@ def dedent(text, should_strip=True):
                          to start on the next line after the triple-quote. Defaults to ``True``
     """
     dedented = textwrap.dedent(text)
-    return (dedented.strip() if should_strip else dedented)
+    return dedented.strip() if should_strip else dedented
 
 
-def unwrap(text, should_strip=True):
+def unwrap(text: str, should_strip: bool = True) -> str:
     """
     Converts a paragraph of (possibly) indented, wrapped text and unwraps it
     into a single line
@@ -36,14 +37,14 @@ def unwrap(text, should_strip=True):
     return " ".join(dedent(text, should_strip=should_strip).split("\n"))
 
 
-def strip_whitespace(text):
+def strip_whitespace(text: str) -> str:
     """
     Removes all whitespace from a string
     """
     return re.sub(r"\s+", "", text)
 
 
-def indent_wrap(text, **kwargs):
+def indent_wrap(text: str, **kwargs) -> str:
     """
     Wraps a long string using textwrap args and indents all the lines using
     the same indent as the first line
@@ -54,7 +55,7 @@ def indent_wrap(text, **kwargs):
     return textwrap.fill(text, **kwargs)
 
 
-def pretty_print(data, *args, stream=sys.stdout, **kwargs):
+def pretty_print(data: Dict, *args, stream: TextIO = sys.stdout, **kwargs):
     """
     Prints to a stream (stdout by default) a data item using the
     pretty_format method
@@ -62,15 +63,15 @@ def pretty_print(data, *args, stream=sys.stdout, **kwargs):
     print(pretty_format(data, *args, **kwargs), file=stream)
 
 
-def pretty_format(data, *args, indent=2, **kwargs):
+def pretty_format(data: Dict, *args, indent: int = 2, **kwargs) -> str:
     """
     Pretty-formats a python data structure
     """
     kwargs["width"] = 1
-    return pprintpp.pformat(data, indent=indent, **kwargs)
+    return pprintpp.pformat(data, *args, indent=indent, **kwargs)
 
 
-def enboxify(text, boxchar="*", hspace=1, vspace=0, should_strip=True):
+def enboxify(text: str, boxchar: str = "*", hspace: int = 1, vspace: int = 0, should_strip: bool = True) -> str:
     """
     Draws a box around a block of text
 
@@ -88,7 +89,7 @@ def enboxify(text, boxchar="*", hspace=1, vspace=0, should_strip=True):
         raise Exception("vspace must be 0 or greater")
     text = dedent(text, should_strip=should_strip)
     lines = [""] * vspace + text.split("\n") + [""] * vspace
-    box_width = max([len(l) for l in lines]) + 2 + hspace * 2
+    box_width = max([len(ln) for ln in lines]) + 2 + hspace * 2
     newlines = [boxchar * box_width]
     for line in lines:
         newlines += [
