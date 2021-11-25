@@ -9,7 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Unreleased
 ----------
+
+v1.1.0 - 2021-11-24
+----------
 - Added optional parameter ``should_strip`` to ``dedent``
+- Added support for mypy with typehints
+- Added Makefile
+- Enhanced quality checks
 
 v1.0.0 - 2020-11-23
 -------------------
