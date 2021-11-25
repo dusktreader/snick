@@ -1,7 +1,7 @@
 import snick
 
 
-def test_dedent():
+def test_dedent__default():
     indented_text = """
             this is indented text
             it looks nice.
@@ -19,6 +19,28 @@ def test_dedent():
         ]
     )
     assert snick.dedent(indented_text) == expected_dedented_text
+
+
+def test_dedent__should_not_strip():
+    indented_text = """
+            this is indented text
+            it looks nice.
+            I would like to remove
+            leading space
+            when I print it out
+        """
+    expected_dedented_text = "\n".join(
+        [
+            "",
+            "this is indented text",
+            "it looks nice.",
+            "I would like to remove",
+            "leading space",
+            "when I print it out",
+            "",
+        ]
+    )
+    assert snick.dedent(indented_text, should_strip=False) == expected_dedented_text
 
 
 def test_indent():
