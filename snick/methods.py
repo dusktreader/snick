@@ -13,19 +13,27 @@ def indent(text, prefix="    ", **kwargs):
     return textwrap.indent(text, prefix=prefix, **kwargs)
 
 
-def dedent(text):
+def dedent(text, should_strip=True):
     """
     Dedents a paragraph after removing leading and trailing whitespace
+
+    :param text:         The text to dedent
+    :param should_strip: Strip leading whitespace. Useful if you you like the first line of triple-quoted text
+                         to start on the next line after the triple-quote. Defaults to ``True``
     """
-    return textwrap.dedent(text).strip()
+    dedented = textwrap.dedent(text)
+    return (dedented.strip() if should_strip else dedented)
 
 
-def unwrap(text):
+def unwrap(text, should_strip=True):
     """
     Converts a paragraph of (possibly) indented, wrapped text and unwraps it
     into a single line
+
+    :param text:         The text to unwrap
+    :param should_strip: Strip leading whitespace. Passed on to ``dedent()``
     """
-    return " ".join(dedent(text).split("\n"))
+    return " ".join(dedent(text, should_strip=should_strip).split("\n"))
 
 
 def strip_whitespace(text):
@@ -62,9 +70,15 @@ def pretty_format(data, *args, indent=2, **kwargs):
     return pprintpp.pformat(data, indent=indent, **kwargs)
 
 
-def enboxify(text, boxchar="*", hspace=1, vspace=0):
+def enboxify(text, boxchar="*", hspace=1, vspace=0, should_strip=True):
     """
     Draws a box around a block of text
+
+    :param text:         The text to enboxify
+    :param boxchar:      The text to use for drawing the box
+    :param hspace:       Horizontal padding around text and box
+    :param vspace:       Vertical padding around text and box
+    :param should_strip: Strip leading whitespace. Passed on to ``dedent()``
     """
     if len(boxchar) > 1:
         raise Exception("boxchar must be a single character")
@@ -72,7 +86,7 @@ def enboxify(text, boxchar="*", hspace=1, vspace=0):
         raise Exception("hspace must be 0 or greater")
     if vspace < 0:
         raise Exception("vspace must be 0 or greater")
-    text = dedent(text)
+    text = dedent(text, should_strip=should_strip)
     lines = [""] * vspace + text.split("\n") + [""] * vspace
     box_width = max([len(l) for l in lines]) + 2 + hspace * 2
     newlines = [boxchar * box_width]

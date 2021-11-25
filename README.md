@@ -55,6 +55,33 @@ Here is some text
 ```
 
 
+The dedent method also has an optional `should_strip` parameter that, if set to False,
+will preserve the newlines before and after triple quoted text:
+
+```python
+    dummy_text = """
+        Here is some text
+            here is some other text
+            we don't want this indented
+            when it's printed
+              (to the console)
+    """
+```
+
+calling `print(snick.dedent(dummy_text, should_strip=False)` will result in dedented
+output that preserves leading and following newlines like so:
+
+```
+
+Here is some text
+    here is some other text
+    we don't want this indented
+    when it's printed
+      (to the console)
+
+```
+
+
 ### indent
 
 This method indents a block of text. It's a thin wrapper around `textwrap.indent()`.
