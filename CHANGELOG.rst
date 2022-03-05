@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Unreleased
 ----------
 
+v1.2.0 - 2022-03-04
+----------
+- Added ``conjoin()`` function
+- Added ``dedent_all()`` function
+
 v1.1.0 - 2021-11-24
 ----------
 - Added optional parameter ``should_strip`` to ``dedent``

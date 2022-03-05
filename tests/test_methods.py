@@ -28,19 +28,92 @@ def test_dedent__should_not_strip():
             I would like to remove
             leading space
             when I print it out
+            but not the leading and trailing newline.
         """
     expected_dedented_text = "\n".join(
         [
-            "",
-            "this is indented text",
+            "\nthis is indented text",
             "it looks nice.",
             "I would like to remove",
             "leading space",
             "when I print it out",
-            "",
+            "but not the leading and trailing newline.\n"
         ]
     )
     assert snick.dedent(indented_text, should_strip=False) == expected_dedented_text
+
+
+def test_conjoin__default():
+    joined_text = snick.conjoin(
+        "Here are some lines",
+        "that should be joined",
+        "into a single multi-line string",
+    )
+    assert joined_text == snick.dedent(
+        """
+        Here are some lines
+        that should be joined
+        into a single multi-line string
+        """
+    )
+
+
+def test_conjoin__with_join_str_param():
+    joined_text = snick.conjoin(
+        "Here are some lines",
+        "that should be joined",
+        "with a separator",
+        join_str=" -- ",
+    )
+    assert joined_text == "Here are some lines -- that should be joined -- with a separator"
+
+
+def test_dedent_all__default():
+    dedented_joined_text = snick.dedent_all(
+        """
+        Here is the first blob
+        with 8 spaces of indentation
+        that should be dedented first.
+        """,
+        "  Here is another single line with 2 spaces of indent.",
+        "This line has no indentation.",
+    )
+    assert dedented_joined_text == snick.dedent(
+        """
+        Here is the first blob
+        with 8 spaces of indentation
+        that should be dedented first.
+        Here is another single line with 2 spaces of indent.
+        This line has no indentation.
+        """
+    )
+
+
+def test_dedent_all__with_params():
+    dedented_joined_text = snick.dedent_all(
+        """
+        Here is the first blob
+        with 8 spaces of indentation
+        that should be dedented first.
+        """,
+        "  Here is another single line with 2 spaces of indent.",
+        "This line has no indentation.\n",
+        should_strip=False,
+        join_str="\n\n",
+    )
+    assert dedented_joined_text == snick.dedent(
+        """
+        Here is the first blob
+        with 8 spaces of indentation
+        that should be dedented first.
+
+
+        Here is another single line with 2 spaces of indent.
+
+        This line has no indentation.
+        """,
+        should_strip=False,
+    )
 
 
 def test_indent():
