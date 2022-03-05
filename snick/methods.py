@@ -26,6 +26,29 @@ def dedent(text: str, should_strip: bool = True) -> str:
     return dedented.strip() if should_strip else dedented
 
 
+def conjoin(*items: str, join_str: str = "\n") -> str:
+    """
+    Joins strings supplied as args.
+
+    Helper that wraps ``str.join()`` without having to pack strings in an iterable
+
+    :param: items: Positional arguments for strings that should be joined
+    :param: join_str: The string used to join the strings. Defaults to newline character.
+    """
+    return join_str.join(items)
+
+
+def dedent_all(*texts: str, should_strip: bool = True, join_str: str = "\n") -> str:
+    """
+    Dedents each blob supplied as an argument and then joins them.
+
+    :param: should_strip: Passed along to each call to ``dedent``
+    :param: join_str: Passed along to the call to ``conjoin``
+
+    """
+    return conjoin(*(dedent(l, should_strip=should_strip) for l in texts), join_str=join_str)
+
+
 def unwrap(text: str, should_strip: bool = True) -> str:
     """
     Converts a paragraph of (possibly) indented, wrapped text and unwraps it

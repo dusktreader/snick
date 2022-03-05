@@ -105,6 +105,37 @@ The snippet above will produce:
 ```
 
 
+### dedent_all
+
+This function just applies a dedent to each argument you pass it separately and then
+joins them together. This is useful if you want to dynamically produce some items
+that you need to add to some other long string. Here's an example:
+
+```
+print(snick.dedent_all(
+    """
+    Here is a long bit of text
+    as an introduction to the
+    folowing dynamic items:
+    --------------------------
+    """,
+    *(f"* Item #{i}" for i in range(1, 4)),
+))
+```
+
+The snippet above would produce:
+
+```
+Here is a long bit of text
+as an introduction to the
+folowing dynamic items:
+--------------------------
+* Item #1
+* Item #2
+* Item #3
+```
+
+
 ### unwrap
 
 This method unwraps a block of text. It does this by joining all lines into
@@ -136,7 +167,38 @@ I need to have a very long string here, but it would go way outside of the line 
 ```
 
 
-# strip_whitespace
+### conjoin
+
+This method is a lot like the python built-in `join`. The difference is that you don't
+need to wrap the stuff to wrap in an iterable like a list or tuple. Instead, you can
+just pass the items as arguments to the `conjoin()` function. Here's an example:
+
+```
+print(snick.conjoin(
+    "Here are some lines",
+    "that I would like to join",
+    "and it would be silly",
+    "to have to wrap them in a",
+    "list instead of just passing",
+    "them as plain old arguments",
+))
+```
+
+The above code would print this:
+```
+Here are some lines
+that I would like to join
+and it would be silly
+to have to wrap them in a
+list instead of just passing
+them as plain old arguments
+```
+
+The `conjoin()` function also has a keyword argument `join_str` where you can override
+the default value (newline) with string you like.
+
+
+### strip_whitespace
 
 This method just removes all whitespace from a string. This includes newlines,
 tabs, spaces, etc. This method is handy for writing tests that need to ignore
@@ -155,7 +217,7 @@ sometextwithwhitespaceandwhatnot
 ```
 
 
-# indent_wrap
+### indent_wrap
 
 This method is used to wrap a long string and indent each wrapped line. It might
 be useful for wrapping and indenting some string that's produced programatically
@@ -178,7 +240,7 @@ Here's some filler text:
 ```
 
 
-# pretty_print
+### pretty_print
 
 This method can be used to pretty-print a dictionary:
 
@@ -201,13 +263,13 @@ The code block above would produce formatted output like this:
 ```
 
 
-# pretty_format
+### pretty_format
 
 This method is the same as pretty_print but returns the string instead of
 printing to a IO stream
 
 
-# enboxify
+### enboxify
 
 This method just draws a box around some text. This is especially useful for
 logging when you want to make something really pop out:
