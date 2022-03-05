@@ -30,7 +30,7 @@ This method unindents a block of text by aligning all lines with the left most
 This is very good if you wish to use python triple-quote strings in your code,
 like to start the text on its own line, but do not wish to leave them indented:
 
-```
+```python
 class Whatever:
 
     @staticmethod
@@ -88,7 +88,7 @@ This method indents a block of text. It's a thin wrapper around `textwrap.indent
 However, it includes a default prefix of 4 spaces. This could be handy if you want
 to indent some lines of text that you join with newline:
 
-```
+```python
 print(snick.indent('\n'.join([
     'would be so nice',
     'to indent these',
@@ -111,7 +111,7 @@ This function just applies a dedent to each argument you pass it separately and 
 joins them together. This is useful if you want to dynamically produce some items
 that you need to add to some other long string. Here's an example:
 
-```
+```python
 print(snick.dedent_all(
     """
     Here is a long bit of text
@@ -125,7 +125,7 @@ print(snick.dedent_all(
 
 The snippet above would produce:
 
-```
+```python
 Here is a long bit of text
 as an introduction to the
 folowing dynamic items:
@@ -143,7 +143,7 @@ a single string. It works on indented text as well. This might be convenient
 if you have a very indented block of code and you need to type a long string
 out. You could unwrap a triple-quoted block:
 
-```
+```python
 if True:
     if True:
         if True:
@@ -173,7 +173,7 @@ This method is a lot like the python built-in `join`. The difference is that you
 need to wrap the stuff to wrap in an iterable like a list or tuple. Instead, you can
 just pass the items as arguments to the `conjoin()` function. Here's an example:
 
-```
+```python
 print(snick.conjoin(
     "Here are some lines",
     "that I would like to join",
@@ -204,7 +204,7 @@ This method just removes all whitespace from a string. This includes newlines,
 tabs, spaces, etc. This method is handy for writing tests that need to ignore
 whitespace used for readability/formatting:
 
-```
+```python
 print(snick.strip_whitespace("""
     some text with    whitespace
     and whatnot
@@ -222,7 +222,7 @@ sometextwithwhitespaceandwhatnot
 This method is used to wrap a long string and indent each wrapped line. It might
 be useful for wrapping and indenting some string that's produced programatically
 
-```
+```python
 print("Here's some filler text:")
 print(f"    {snick.indent_wrap(lorem.text())}")
 ```
@@ -244,7 +244,7 @@ Here's some filler text:
 
 This method can be used to pretty-print a dictionary:
 
-```
+```python
 snick.pretty_print("'a': {'b': 1, 'c': {'d': 2}, 'e': 3}, 'f': 4}")
 ```
 
@@ -265,7 +265,7 @@ The code block above would produce formatted output like this:
 
 ### pretty_format
 
-This method is the same as pretty_print but returns the string instead of
+This method is the same as `pretty_print()` but returns the string instead of
 printing to a IO stream
 
 
@@ -274,7 +274,7 @@ printing to a IO stream
 This method just draws a box around some text. This is especially useful for
 logging when you want to make something really pop out:
 
-```
+```python
 print(snick.enboxify("""
     here's some text that we
     want to put into a box.
