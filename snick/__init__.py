@@ -1,6 +1,6 @@
 from snick.methods import (
-    dedent,
     conjoin,
+    dedent,
     dedent_all,
     enboxify,
     indent,

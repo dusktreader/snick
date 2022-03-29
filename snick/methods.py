@@ -46,7 +46,7 @@ def dedent_all(*texts: str, should_strip: bool = True, join_str: str = "\n") -> 
     :param: join_str: Passed along to the call to ``conjoin``
 
     """
-    return conjoin(*(dedent(l, should_strip=should_strip) for l in texts), join_str=join_str)
+    return conjoin(*(dedent(t, should_strip=should_strip) for t in texts), join_str=join_str)
 
 
 def unwrap(text: str, should_strip: bool = True) -> str:
