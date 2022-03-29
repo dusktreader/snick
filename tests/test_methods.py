@@ -37,7 +37,7 @@ def test_dedent__should_not_strip():
             "I would like to remove",
             "leading space",
             "when I print it out",
-            "but not the leading and trailing newline.\n"
+            "but not the leading and trailing newline.\n",
         ]
     )
     assert snick.dedent(indented_text, should_strip=False) == expected_dedented_text
