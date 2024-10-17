@@ -1,24 +1,31 @@
-name: 'push_qa'
+name: Run QA Checks on Push
 
 on:
   push:
     branches:
       - main
   pull_request:
+    branches:
+      - main
 
 jobs:
-  tests:
-    name: "Tests"
-    runs-on: "ubuntu-latest"
+  test:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-          architecture: 'x64'
-      - uses: Gr1N/setup-poetry@v7
-      - name: "run full suite of tests"
-        run: make qa
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Set up Poetry
+      uses: Gr1N/setup-poetry@v8
+
+    - name: Check Quality
+      run: make qa
