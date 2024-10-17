@@ -2,26 +2,29 @@ SHELL:=/bin/bash
 PACKAGE_NAME:=snick
 ROOT_DIR:=$(shell dirname $(shell pwd))
 
+.PHONY: install
 install:
 	poetry install
 
+.PHONY: test
 test: install
 	poetry run pytest
 
+.PHONY: mypy
 mypy: install
 	poetry run mypy ${PACKAGE_NAME} --pretty
 
+.PHONY: lint
 lint: install
-	poetry run black --check ${PACKAGE_NAME} tests
-	poetry run isort --check ${PACKAGE_NAME} tests
-	poetry run pflake8 ${PACKAGE_NAME} tests
+	poetry run ruff check ${PACKAGE_NAME} tests
 
-qa: test mypy lint
-	echo "All tests pass! Ready for deployment"
+.PHONY: qa
+qa: test lint mypy
+	echo "All quality checks pass!"
 
+.PHONY: format
 format: install
-	poetry run black ${PACKAGE_NAME} tests
-	poetry run isort ${PACKAGE_NAME} tests
+	poetry run ruff format ${PACKAGE_NAME} tests
 
 publish: install
 	git tag v$(shell poetry version --short)
