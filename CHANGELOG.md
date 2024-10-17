@@ -8,12 +8,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 # Unreleased
 
+# v1.4.1 - 2024-10-17
+
+- Fixed links in project metadata
+
+
 # v1.4.0 - 2024-10-17
 
 - Dropped support for python 3.6 and 3.7
 - Added support for python 3.11 and 3.12
 - Loosened dependencies
 - Added more metadata to pyproject.toml
+
 
 # v1.3.0 - 2022-03-29
 

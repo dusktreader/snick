@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "snick"
-version = "1.4.0"
+version = "1.4.1"
 description = ""
 authors = ["Tucker Beck <tucker.beck@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-homepage = "https://github.com/dusktreader/py-buzz"
-repository = "https://github.com/dusktreader/py-buzz"
+homepage = "https://github.com/dusktreader/snick"
+repository = "https://github.com/dusktreader/snick"
 
 [tool.poetry.dependencies]
 python = "^3.8"
