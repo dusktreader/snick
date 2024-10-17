@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 # Unreleased
 
+# v1.3.1 - 2024-10-17
+
+- Added more metadata to pyproject.toml
+
 # v1.3.0 - 2022-03-29
 
 - Restored support for python 3.6
