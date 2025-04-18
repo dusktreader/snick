@@ -6,12 +6,15 @@ from typing import Dict, TextIO
 import pprintpp
 
 
-def indent(text: str, prefix: str = "    ", **kwargs) -> str:
+def indent(text: str, prefix: str = "    ", skip_first_line: bool = False, **kwargs) -> str:
     """
     Simple wrapper for the textwrap.indent() method but includes a
     default prefix
     """
-    return textwrap.indent(text, prefix=prefix, **kwargs)
+    if skip_first_line:
+        lines = text.split("\n")
+        return "\n".join([lines[0], textwrap.indent("\n".join(lines[1:]), prefix, **kwargs)])
+    return textwrap.indent(text, prefix, **kwargs)
 
 
 def dedent(text: str, should_strip: bool = True) -> str:

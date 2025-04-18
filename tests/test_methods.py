@@ -116,7 +116,7 @@ def test_dedent_all__with_params():
     )
 
 
-def test_indent():
+def test_indent__basic():
     dedented_text = "\n".join(
         [
             "this is non-indented text",
@@ -138,6 +138,26 @@ def test_indent():
         ]
     )
     assert snick.indent(dedented_text) == expected_indented_text
+
+
+def test_indent__skip_first_line():
+    dedented_text = "\n".join(
+        [
+            "    this is partially-indented text.",
+            "the first line is already indented.",
+            "it should not be indented.",
+            "only the remaining lines.",
+        ]
+    )
+    expected_indented_text = "\n".join(
+        [
+            "    this is partially-indented text.",
+            "    the first line is already indented.",
+            "    it should not be indented.",
+            "    only the remaining lines.",
+        ]
+    )
+    assert snick.indent(dedented_text, skip_first_line=True) == expected_indented_text
 
 
 def test_unwrap():

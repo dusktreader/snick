@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 # Unreleased
 
+# v1.5.0 - 2025-04-18
+
+- Added `skip_first_line` option to `indent()`
+
 # v1.4.1 - 2024-10-17
 
 - Fixed links in project metadata

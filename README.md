@@ -104,6 +104,24 @@ The snippet above will produce:
    i guess
 ```
 
+The `indent` method also provides an option to skip the first line of text:
+
+```python
+print(snick.indent('\n'.join([
+    'do not indent me',
+    'indent me, though',
+    'and me',
+])))
+```
+
+The snippet above will produce:
+
+```
+do not indent me
+    indent me, though
+    and me
+```
+
 
 ### dedent_all
 
