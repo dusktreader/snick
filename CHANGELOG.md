@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 # Unreleased
 
+# v2.0.0 - 2025-04-18
+
+- Dropped support for python 3.8
+- Converted to a uv project
+
+
 # v1.5.0 - 2025-04-18
 
 - Added `skip_first_line` option to `indent()`

@@ -1,41 +1,82 @@
-[tool.poetry]
+[project]
 name = "snick"
-version = "1.5.0"
-description = ""
-authors = ["Tucker Beck <tucker.beck@gmail.com>"]
+version = "2.0.0"
+description = "Text gadgets that help with indentation"
+authors = [
+    {name = "Tucker Beck", email ="tucker.beck@gmail.com"},
+]
 license = "MIT"
 readme = "README.md"
+license-files = ["LICENSE.md"]
+requires-python = ">=3.9"
+dependencies = ["pprintpp~=0.4"]
+
+[project.urls]
 homepage = "https://github.com/dusktreader/snick"
-repository = "https://github.com/dusktreader/snick"
+source = "https://github.com/dusktreader/snick"
+changelog = "https://github.com/dusktreader/snick/blob/main/CHANGELOG.md"
 
-[tool.poetry.dependencies]
-python = "^3.8"
-pprintpp = "^0.4"
+[dependency-groups]
+dev = [
+    "basedpyright~=1.28",
+    "debugpy~=1.8",
+    "ipython~=8.18",
+    "mypy~=1.15",
+    "pyclean~=3.1",
+    "pytest~=8.3",
+    "pytest-cov~=6.0",
+    "pytest-pretty~=1.2",
+    "pytest-random-order~=1.1",
+    "ruff~=0.11",
+    "typos~=1.31",
+]
 
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.3.3"
-pytest-random-order = "^1.1.1"
-pytest-cov = "^5.0.0"
-ipython = "^8.12"
-ruff = "^0.7.0"
-mypy = "^1.12.0"
+
+[tool.uv]
+package = true
+
+
+[tool.pytest.ini_options]
+addopts = [
+    "--random-order",
+    "--cov=src/snick",
+    "--cov-report=term-missing",
+    "--cov-fail-under=85",
+    "--cov-report=xml:.coverage.xml",
+    "--junitxml=.junit.xml",
+    "--override-ini=junit_family=legacy",
+]
+
 
 [tool.ruff]
 line-length = 120
+src = ["src/snick", "tests"]
 
-[tool.pytest.ini_options]
-minversion = "8.3.0"
-addopts = [
-    "--random-order",
-    "--failed-first",
-    "--maxfail=1",
-]
-testpaths = ["tests"]
+
+[tool.mypy]
+pretty = true
+files = ["src/snick", "tests"]
+
 
 [[tool.mypy.overrides]]
-ignore_missing_imports = true
 module = ["pprintpp"]
+ignore_missing_imports = true
+
+
+[tool.basedpyright]
+reportAny = false
+reportExplicitAny = false
+# reportUnusedCallResult = false
+
+
+[tool.typos.default]
+extend-ignore-identifiers-re = []
+
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/snick"]
+
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"

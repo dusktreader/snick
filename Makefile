@@ -1,45 +1,50 @@
+.ONESHELL:
+.DEFAULT_GOAL:=help
 SHELL:=/bin/bash
-PACKAGE_NAME:=snick
-ROOT_DIR:=$(shell dirname $(shell pwd))
+PACKAGE_TARGET:=src/snick
 
-.PHONY: install
-install:
-	poetry install
 
-.PHONY: test
-test: install
-	poetry run pytest
+# ==== Helpers =========================================================================================================
+.PHONY: confirm
+confirm:  ## Don't use this directly
+	@echo -n "Are you sure? [y/N] " && read ans && [ $${ans:-N} = y ]
 
-.PHONY: mypy
-mypy: install
-	poetry run mypy ${PACKAGE_NAME} --pretty
 
-.PHONY: lint
-lint: install
-	poetry run ruff check ${PACKAGE_NAME} tests
+.PHONY: help
+help:  ## Show help message
+	@awk 'BEGIN {FS = ": .*##"; printf "\nUsage:\n  make \033[36m\033[0m\n"} /^[$$()% 0-9a-zA-Z_\/-]+(\\:[$$()% 0-9a-zA-Z_\/-]+)*:.*?##/ { gsub(/\\:/,":", $$1); printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
-.PHONY: qa
-qa: test lint mypy
-	echo "All quality checks pass!"
+.PHONY: clean
+clean:  ## Clean up build artifacts and other junk
+	@rm -rf .venv
+	@uv run pyclean . --debris
+	@rm -rf dist
+	@rm -rf .ruff_cache
+	@rm -rf .pytest_cache
+	@rm -rf .mypy_cache
+	@rm -f .coverage*
+	@rm -f .junit.xml
 
-.PHONY: format
-format: install
-	poetry run ruff format ${PACKAGE_NAME} tests
 
-publish: install
-	git tag v$(shell poetry version --short)
-	git push origin v$(shell poetry version --short)
+# ==== Quality Control =================================================================================================
+.PHONY: qa/test
+qa/test:  ## Run the tests
+	uv run pytest
 
-clean: clean-eggs clean-build
-	@find . -iname '*.pyc' -delete
-	@find . -iname '*.pyo' -delete
-	@find . -iname '*~' -delete
-	@find . -iname '*.swp' -delete
-	@find . -iname '__pycache__' -delete
-	@rm -r .mypy_cache
-	@rm -r .pytest_cache
-	@find . -name '*.egg' -print0|xargs -0 rm -rf --
-	@rm -rf .eggs/
-	@rm -fr build/
-	@rm -fr dist/
-	@rm -fr *.egg-info
+.PHONY: qa/types
+qa/types:  ## Run static type checks
+	uv run mypy ${PACKAGE_TARGET} tests --pretty
+	uv run basedpyright ${PACKAGE_TARGET} tests
+
+.PHONY: qa/lint
+qa/lint:  ## Run linters
+	uv run ruff check ${PACKAGE_TARGET} tests
+	uv run typos ${PACKAGE_TARGET} tests
+
+.PHONY: qa/full
+qa/full: qa/test qa/lint qa/types  ## Run the full set of quality checks
+	@echo "All quality checks pass!"
+
+.PHONY: qa/format
+qa/format:  ## RUn code formatter
+	uv run ruff format ${PACKAGE_TARGET} tests
