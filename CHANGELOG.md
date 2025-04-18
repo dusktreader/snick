@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 # Unreleased
 
+# v2.1.0 - 2025-04-18
+
+- Added `strip_ansi_escape_sequences()` method.
+
+
 # v2.0.0 - 2025-04-18
 
 - Dropped support for python 3.8

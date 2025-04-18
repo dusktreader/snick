@@ -145,3 +145,12 @@ def enboxify(text: str, boxchar: str = "*", hspace: int = 1, vspace: int = 0, sh
         ]
     newlines += [boxchar * box_width]
     return "\n".join(newlines)
+
+
+def strip_ansi_escape_sequences(text: str) -> str:
+    """
+    Strip all ansi escape sequences from a string.
+
+    To learn more about these sequences, see: https://jakob-bagterp.github.io/colorist-for-python/ansi-escape-codes/
+    """
+    return re.sub(r"\x1b\[[0-9;]+m", '', text)

@@ -233,6 +233,48 @@ sometextwithwhitespaceandwhatnot
 ```
 
 
+### `strip_ansi_escape_sequences()`
+
+This method removes all ANSI escape sequences from text. These are commonly inserted into text by terminal applications
+that make use of color and effects in the output.
+
+Here's what text looks like when you show the control charactes in the code:
+
+```
+\033[31mhere's some text\033[0m with
+\033[32mansi control codes\033[0m added
+\033[33mincluding a few\033[0m
+\033[34mdifferent colors\033[0m
+\033[1mand bold text\033[0m.
+```
+
+This will print nicely with red, green, blue and yellow text. However, if you need to include the text in a context
+where the control characters can't be interpreted (like some instances in Github actions), they will only cause
+problems. To remove them, use `strip_ansi_escape_sequences()`:
+
+```python
+print(snick.strip_ansi_escape_sequences(snick.dedent(
+    """
+    \033[31mhere's some text\033[0m with
+    \033[32mansi control codes\033[0m added
+    \033[33mincluding a few\033[0m
+    \033[34mdifferent colors\033[0m
+    \033[1mand bold text\033[0m.
+    """
+)
+```
+
+This will result in plan text like this:
+
+```
+here's some text with
+ansi control codes added
+including a few
+different colors
+and bold text."
+```
+
+
 ### `indent_wrap()`
 
 This method is used to wrap a long string and indent each wrapped line. It might be useful for wrapping and indenting

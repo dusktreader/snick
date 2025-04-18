@@ -231,3 +231,17 @@ def test_enboxify():
         """
     )
     assert snick.enboxify(indented_unboxed_text) == expected_boxed_text
+
+
+def test_strip_ansi_escape_sequences():
+    provided = snick.conjoin(
+        "\033[31mhere's some text\033[0m with",
+        "\033[32mansi control codes\033[0m added",
+        "\033[33mincluding a few\033[0m",
+        "\033[34mdifferent colors\033[0m",
+        "\033[1mand bold text\033[0m.",
+        join_str=" ",
+    )
+    expected = "here's some text with ansi control codes added including a few different colors and bold text."
+    computed = snick.strip_ansi_escape_sequences(provided)
+    assert computed == expected
