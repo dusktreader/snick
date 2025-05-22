@@ -1,6 +1,6 @@
 [project]
 name = "snick"
-version = "2.1.0"
+version = "2.2.0"
 description = "Text gadgets that help with indentation"
 authors = [
     {name = "Tucker Beck", email ="tucker.beck@gmail.com"},

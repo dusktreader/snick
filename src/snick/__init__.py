@@ -8,6 +8,7 @@ from snick.methods import (
     pretty_format,
     pretty_print,
     strip_ansi_escape_sequences,
+    strip_trailing_whitespace,
     strip_whitespace,
     unwrap,
 )
@@ -22,6 +23,7 @@ __all__ = [
     "pretty_format",
     "pretty_print",
     "strip_ansi_escape_sequences",
+    "strip_trailing_whitespace",
     "strip_whitespace",
     "unwrap",
 ]

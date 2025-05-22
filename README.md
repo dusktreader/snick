@@ -233,12 +233,34 @@ sometextwithwhitespaceandwhatnot
 ```
 
 
+### `strip_trailing_whitespace()`
+
+This method just removes all trailing whitespace from each line in a multi-line string:
+
+```python
+print(snick.strip_trailing_whitespace(
+    snick.conjoin(
+        "  here is a string with a bundle of    ",
+        "  trailing whitespace. ",
+        "  we want it all gone.                    ",
+    )
+)
+```
+
+The above code block would print out the following:
+```
+  here is a string with a bundle of
+  trailing whitespace.
+  we want it all gone.
+```
+
+
 ### `strip_ansi_escape_sequences()`
 
 This method removes all ANSI escape sequences from text. These are commonly inserted into text by terminal applications
 that make use of color and effects in the output.
 
-Here's what text looks like when you show the control charactes in the code:
+Here's what text looks like when you show the control characters in the code:
 
 ```
 \033[31mhere's some text\033[0m with

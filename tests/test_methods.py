@@ -184,6 +184,20 @@ def test_strip_whitespace():
     assert snick.strip_whitespace(whitespace_city) == expected_stripped_text
 
 
+def test_strip_trailing_whitespace():
+    whitespace_city = snick.conjoin(
+        "  here is a string with a bundle of    ",
+        "  trailing whitespace. ",
+        "  we want it all gone.                    ",
+    )
+    expected_stripped_text = snick.conjoin(
+        "  here is a string with a bundle of",
+        "  trailing whitespace.",
+        "  we want it all gone.",
+    )
+    assert snick.strip_trailing_whitespace(whitespace_city) == expected_stripped_text
+
+
 def test_indent_wrap():
     unindented_text = "   All wrapped lines should be started with 4 spaces"
     expected_wrapped_text = "\n".join(
