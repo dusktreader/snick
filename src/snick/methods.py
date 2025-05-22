@@ -76,6 +76,13 @@ def strip_whitespace(text: str) -> str:
     return re.sub(r"\s+", "", text)
 
 
+def strip_trailing_whitespace(text: str) -> str:
+    """
+    Removes trailing whitespace on all lines of a multiline string.
+    """
+    return "\n".join(s.rstrip() for s in text.splitlines())
+
+
 def indent_wrap(text: str, **kwargs: Any) -> str:
     """
     Wrap a long string using textwrap args and indent all the lines using the same indent as the first line.

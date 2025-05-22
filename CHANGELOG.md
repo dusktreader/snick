@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 # Unreleased
 
+
+# v2.2.0 - 2025-05-19
+
+- Added `strip_trailing_whitespace()` method.
+
+
 # v2.1.0 - 2025-04-18
 
 - Added `strip_ansi_escape_sequences()` method.
