@@ -421,7 +421,7 @@ The `Builder` class provides a convenient way to incrementally construct multi-l
 you need to build complex text output programmatically, where different parts of the text may be generated conditionally
 or in loops.
 
-For the most common usecases, parts added to the builder will be dedenteds automatically (though this behavior is
+For the most common usecases, parts added to the builder will be dedented automatically (though this behavior is
 configurable). Then, the parts are joined together with newlines (though this is also configurable) when the Builder is
 rendered to string. This makes it easy to work with indented triple-quoted strings in your code while producing clean
 output.
