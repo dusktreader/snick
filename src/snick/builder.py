@@ -1,5 +1,12 @@
 from dataclasses import dataclass, field
-from typing import override
+import sys
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING and sys.version_info >= (3, 12):
+    from typing import override
+else:
+    def override(f):
+        return f
 
 from snick.methods import dedent
 
