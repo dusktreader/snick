@@ -1,14 +1,17 @@
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 import sys
-from typing import TYPE_CHECKING
 
-if TYPE_CHECKING and sys.version_info >= (3, 12):
+if sys.version_info >= (3, 12):
     from typing import override
 else:
-    def override(f):
+
+    def override(f):  # pyright: ignore[reportUnreachable]
         return f
 
+
 from snick.methods import dedent
+
 
 @dataclass
 class Builder:
@@ -18,6 +21,7 @@ class Builder:
     This is most useful when building multi-line strings where you want to add parts as you go and then
     produce a final, joined string.
     """
+
     parts: list[str] = field(default_factory=list)
     join_str: str = "\n"
     blank: str = ""
@@ -26,7 +30,14 @@ class Builder:
     def __str__(self) -> str:
         return self.join_str.join(self.parts)
 
-    def add(self, *parts: str, should_dedent: bool = True, blanks_between: int = 0, blanks_before: int = 0, blanks_after: int = 0) -> None:
+    def add(
+        self,
+        *parts: str,
+        should_dedent: bool = True,
+        blanks_between: int = 0,
+        blanks_before: int = 0,
+        blanks_after: int = 0,
+    ) -> None:
         """
         Add a new part(s) to the builder.
 
@@ -46,7 +57,14 @@ class Builder:
             self.parts.append(part)
         self.add_blanks(blanks_after)
 
-    def extend(self, parts: list[str], should_dedent: bool = True, blanks_between: int = 0, blanks_before: int = 0, blanks_after: int = 0) -> None:
+    def extend(
+        self,
+        parts: Iterable[str],
+        should_dedent: bool = True,
+        blanks_between: int = 0,
+        blanks_before: int = 0,
+        blanks_after: int = 0,
+    ) -> None:
         """
         Add new parts to the builder.
 
@@ -59,7 +77,13 @@ class Builder:
             blanks_before:  Number of blanks to insert before the first part. Defaults to `0`.
             blanks_after:   Number of blanks to insert after the last part. Defaults to `0`.
         """
-        self.add(*parts, should_dedent=should_dedent, blanks_between=blanks_between, blanks_before=blanks_before, blanks_after=blanks_after)
+        self.add(
+            *parts,
+            should_dedent=should_dedent,
+            blanks_between=blanks_between,
+            blanks_before=blanks_before,
+            blanks_after=blanks_after,
+        )
 
     def add_blanks(self, count: int) -> None:
         """
