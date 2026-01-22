@@ -26,6 +26,17 @@ qa/format:  ## Run code formatter
 	@uv run ruff format ${PACKAGE_TARGET} tests
 
 
+## ==== Documentation ===================================================================================================
+
+docs: docs/serve  ## Shortcut for docs/serve
+
+docs/build:  ## Build the documentation
+	@uv run mkdocs build --config-file=docs/mkdocs.yaml
+
+docs/serve:  ## Build the docs and start a local dev server
+	@uv run mkdocs serve --config-file=docs/mkdocs.yaml --dev-addr=localhost:10000
+
+
 ## ==== Other Commands =================================================================================================
 
 publish: _confirm  ## Publish the package by pushing a tag with the current version
@@ -56,6 +67,7 @@ help:  ## Show help message
 .ONESHELL:
 SHELL:=/bin/bash
 .PHONY: qa qa/test qa/types qa/lint qa/full qa/format \
+	docs docs/build docs/serve \
 	publish \
 	clean help
 

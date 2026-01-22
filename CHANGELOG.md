@@ -12,19 +12,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 # v3.0.0 - 2026-01-22
 
 **BREAKING CHANGES:**
-- `pretty_format()` signature changed: removed unused `*args`, `width`, and `**kwargs` parameters
-- `pretty_format()` now uses a custom implementation with trailing commas on all items (similar to pprintpp style)
-- Removed `pprintpp` dependency - now uses only Python standard library
+- `pretty_format()` now uses a custom implementation with no dependencies (signature updated).
+- Removed `pprintpp` dependency that was being used by `pretty_format()`
 
 **Other Changes:**
+- Added `Conjoiner` for incrementally constructing multi-line strings
 - Dropped support for Python 3.9 (now requires Python 3.10+)
 - Switched to `uv` build backend (from hatchling)
 - Improved type annotations with no type checker warnings
-
-
-# v2.3.0 - 2026-01-22
-
-- Added `Builder` class for incrementally constructing multi-line strings
+- Added comprehensive documentation site with Material for MkDocs
+- Added GitHub Actions workflow to automatically build and publish documentation
+- Improved README with better examples and more compelling messaging
 
 
 # v2.2.0 - 2025-05-19

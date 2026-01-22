@@ -14,9 +14,9 @@ from snick.methods import dedent
 
 
 @dataclass
-class Builder:
+class Conjoiner:
     """
-    Builds a string from parts that are incrementally added.
+    Conjoins text parts into a single string.
 
     This is most useful when building multi-line strings where you want to add parts as you go and then
     produce a final, joined string.
@@ -39,7 +39,7 @@ class Builder:
         blanks_after: int = 0,
     ) -> None:
         """
-        Add a new part(s) to the builder.
+        Add a new part(s) to the conjoiner.
 
         Args:
             parts:          One or more string parts to add.
@@ -66,7 +66,7 @@ class Builder:
         blanks_after: int = 0,
     ) -> None:
         """
-        Add new parts to the builder.
+        Add new parts to the conjoiner.
 
         This is just a convenience method that takes a list of parts instead of variadic arguments.
 
@@ -87,7 +87,7 @@ class Builder:
 
     def add_blanks(self, count: int) -> None:
         """
-        Add blanks to the builder.
+        Add blanks to the conjoiner.
 
         Args:
             count: Number of blank lines to add.
@@ -96,6 +96,6 @@ class Builder:
 
     def add_blank(self) -> None:
         """
-        Add a single blank to the builder.
+        Add a single blank to the conjoiner.
         """
         self.add_blanks(1)

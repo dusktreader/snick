@@ -1,9 +1,3 @@
-[![Latest Version](https://img.shields.io/pypi/v/snick?label=pypi-version&logo=python&style=plastic)](https://pypi.org/project/snick/)
-[![Python Versions](https://img.shields.io/python/required-version-toml?tomlFilePath=https%3A%2F%2Fraw.githubusercontent.com%2Fdusktreader%2Fsnick%2Fmain%2Fpyproject.toml&style=plastic&logo=python&label=python-versions)](https://www.python.org/)
-[![Build Status](https://github.com/dusktreader/snick/actions/workflows/main.yaml/badge.svg)](https://github.com/dusktreader/snick/actions/workflows/main.yaml)
-[![Documentation Status](https://github.com/dusktreader/snick/actions/workflows/docs.yml/badge.svg)](https://dusktreader.github.io/snick/)
-
-
 # snick
 
 **Handy gadgets for taming indented text**
@@ -35,11 +29,11 @@ pip install snick
 ```
 
 
-### Usage
+### Basic Usage
 
 Ever struggle with indented triple-quoted strings in your code?
 
-```python
+```python linenums="1" title="dedent() example"
 import snick
 
 def my_function():
@@ -67,7 +61,7 @@ Please try again later.
 
 Build complex output on the fly:
 
-```python
+```python linenums="1" title="Conjoiner example"
 def generate_report(name, tasks):
     report = snick.Conjoiner()
     report.add(f"Daily Report for {name}", blanks_after=1)
@@ -95,7 +89,7 @@ Completed Tasks:
 
 Format data structures with proper indentation:
 
-```python
+```python linenums="1" title="pretty_format() example"
 data = {
     'user': 'bob',
     'permissions': ['read', 'write', 'execute'],
@@ -121,9 +115,7 @@ Output:
 ```
 
 
-## Documentation
-
-The complete documentation can be found at the [snick documentation page](https://dusktreader.github.io/snick/)
+For more examples and detailed documentation, see the [Features](features.md) page.
 
 
 ## What's with the name?
