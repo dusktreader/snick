@@ -3,8 +3,6 @@ import sys
 import textwrap
 from typing import TextIO, Any, cast
 
-import pprintpp  # pyright: ignore[reportMissingTypeStubs]
-
 
 def indent(text: str, prefix: str = "    ", skip_first_line: bool = False, **kwargs: Any) -> str:
     """
@@ -93,31 +91,57 @@ def indent_wrap(text: str, **kwargs: Any) -> str:
     return textwrap.fill(text, **kwargs)
 
 
-def pretty_print(data: dict[Any, Any], *args: Any, stream: TextIO = sys.stdout, **kwargs: Any):
+def pretty_print(data: dict[Any, Any], indent: int = 2, stream: TextIO = sys.stdout):
     """
     Print to a stream (stdout by default) a data item using the pretty_format method.
 
     Args:
         data:   The data to pretty print.
-        args:   Positional arguments to pass to `pretty_format()`
+        indent: The number of spaces per indentation level. Defaults to 2.
         stream: The stream to print to. Defaults to `sys.stdout`.
-        kwargs: Keyword arguments to pass to `pretty_format()`
     """
-    print(pretty_format(data, *args, **kwargs), file=stream)
+    print(pretty_format(data, indent=indent), file=stream)
 
 
-def pretty_format(data: dict[Any, Any], *args: Any, indent: int = 2, width: int = 1, **kwargs: Any) -> str:
+def pretty_format(data: dict[Any, Any], indent: int = 2) -> str:
     """
-    Pretty-format a python data structure using `pprintpp.pformat()`.
+    Pretty-format a python data structure with trailing commas and clean indentation.
 
     Args:
         data:   The data to pretty print.
-        args:   Positional arguments to pass to `pprintpp.pformat()`
-        indent: The `indent` value to pass along to `pprintpp.pformat()`. Defaults to 2.
-        width:  The `width` value to pass along to `pprintpp.pformat()`. Defaults to 1.
-        kwargs: Keyword arguments to pass to `pprintpp.pformant()`
+        indent: The number of spaces per indentation level. Defaults to 2.
     """
-    return cast(str, pprintpp.pformat(data, *args, indent=indent, width=width, **kwargs))  # pyright: ignore[reportUnknownMemberType]
+    def _format(obj: Any, current_indent: int = 0) -> str:
+        indent_str = ' ' * current_indent
+        next_indent_str = ' ' * (current_indent + indent)
+
+        if isinstance(obj, dict):
+            if not obj:
+                return '{}'
+            lines = ['{']
+            dict_obj = cast(dict[Any, Any], obj)
+            for key in dict_obj:
+                value = dict_obj[key]
+                formatted_value = _format(value, current_indent + indent)
+                lines.append(f"{next_indent_str}{repr(key)}: {formatted_value},")
+            lines.append(f"{indent_str}}}")
+            return '\n'.join(lines)
+        elif isinstance(obj, (list, tuple)):
+            if not obj:
+                return '[]' if isinstance(obj, list) else '()'
+            open_bracket = '[' if isinstance(obj, list) else '('
+            close_bracket = ']' if isinstance(obj, list) else ')'
+            lines = [open_bracket]
+            seq_obj = cast(list[Any] | tuple[Any, ...], obj)
+            for i in range(len(seq_obj)):
+                formatted_item = _format(seq_obj[i], current_indent + indent)
+                lines.append(f"{next_indent_str}{formatted_item},")
+            lines.append(f"{indent_str}{close_bracket}")
+            return '\n'.join(lines)
+        else:
+            return repr(obj)
+
+    return _format(data)
 
 
 def enboxify(text: str, boxchar: str = "*", hspace: int = 1, vspace: int = 0, should_strip: bool = True) -> str:

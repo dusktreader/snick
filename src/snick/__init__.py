@@ -1,3 +1,4 @@
+from snick.builder import Builder
 from snick.methods import (
     conjoin,
     dedent,
@@ -14,6 +15,7 @@ from snick.methods import (
 )
 
 __all__ = [
+    "Builder",
     "dedent",
     "conjoin",
     "dedent_all",

@@ -1,8 +1,10 @@
 [![Latest Version](https://img.shields.io/pypi/v/snick?label=pypi-version&logo=python&style=plastic)](https://pypi.org/project/snick/)
 [![Python Versions](https://img.shields.io/python/required-version-toml?tomlFilePath=https%3A%2F%2Fraw.githubusercontent.com%2Fdusktreader%2Fsnick%2Fmain%2Fpyproject.toml&style=plastic&logo=python&label=python-versions)](https://www.python.org/)
-[![Build Status](https://github.com/dusktreader/snick/actions/workflows/main.yml/badge.svg)](https://github.com/dusktreader/snick/actions/workflows/main.yml)
+[![Build Status](https://github.com/dusktreader/snick/actions/workflows/main.yaml/badge.svg)](https://github.com/dusktreader/snick/actions/workflows/main.yaml)
 
 # Gadgets for managing indented text
+
+**Zero dependencies** - uses only Python standard library!
 
 This library provides several text manipulation gadgets that are useful when dealing with indentation in text. You might
 find them helpful when you are:
@@ -320,32 +322,71 @@ Here's some filler text:
 ```
 
 
-### `pretty_print()`
+### `pretty_format()`
 
-This method can be used to pretty-print a dictionary:
+This method formats a Python data structure (dict, list, tuple, or any combination) with clean indentation and trailing
+commas. It uses only Python's standard library and works with any type that has a `repr()`:
 
 ```python
-snick.pretty_print("'a': {'b': 1, 'c': {'d': 2}, 'e': 3}, 'f': 4}")
+data = {
+    'name': 'example',
+    'values': [1, 2, 3],
+    'nested': {
+        'key': 'value'
+    }
+}
+print(snick.pretty_format(data))
 ```
 
 The code block above would produce formatted output like this:
 ```
 {
-  'a': {
-    'b': 1,
-    'c': {
-      'd': 2,
-    },
-    'e': 3,
+  'name': 'example',
+  'values': [
+    1,
+    2,
+    3,
+  ],
+  'nested': {
+    'key': 'value',
   },
-  'f': 4,
 }
 ```
 
+The formatter works with exotic types like `datetime`, `Decimal`, and custom classes with `__repr__` methods:
 
-### `pretty_format()`
+```python
+from datetime import datetime
+from decimal import Decimal
 
-This method is the same as `pretty_print()` but returns the string instead of printing to a IO stream
+data = {
+    'timestamp': datetime(2026, 1, 22, 20, 15, 30),
+    'amount': Decimal('123.45'),
+    'active': True,
+    'notes': None,
+}
+print(snick.pretty_format(data))
+```
+
+This produces:
+```
+{
+  'timestamp': datetime.datetime(2026, 1, 22, 20, 15, 30),
+  'amount': Decimal('123.45'),
+  'active': True,
+  'notes': None,
+}
+```
+
+You can customize the indentation with the `indent` parameter (defaults to 2 spaces):
+```python
+print(snick.pretty_format(data, indent=4))
+```
+
+
+### `pretty_print()`
+
+This method is the same as `pretty_format()` but prints to a stream (stdout by default) instead of returning a string:
 
 
 ### `enboxify()`
@@ -371,4 +412,247 @@ The code-block above will produce output like this:
 * That will make it look   *
 * so very nice             *
 ****************************
+```
+
+
+## Builder class
+
+The `Builder` class provides a convenient way to incrementally construct multi-line strings. It's especially useful when
+you need to build complex text output programmatically, where different parts of the text may be generated conditionally
+or in loops.
+
+For the most common usecases, parts added to the builder will be dedenteds automatically (though this behavior is
+configurable). Then, the parts are joined together with newlines (though this is also configurable) when the Builder is
+rendered to string. This makes it easy to work with indented triple-quoted strings in your code while producing clean
+output.
+
+
+### Basic Usage
+
+```python
+from snick import Builder
+
+builder = Builder()
+builder.add("First line")
+builder.add("Second line")
+print(builder)
+```
+
+This will output:
+```
+First line
+Second line
+```
+
+
+### Adding Multiple Parts at Once
+
+You can add multiple parts in a single call:
+
+```python
+builder = Builder()
+builder.add(
+    "Line 1",
+    "Line 2",
+    "Line 3",
+)
+print(builder)
+```
+
+
+### Automatic Dedenting
+
+By default, the Builder will dedent each part, making it easy to use indented triple-quoted strings:
+
+```python
+builder = Builder()
+builder.add(
+    """
+    This text is indented in the code
+    but will be dedented in the output
+    """
+)
+builder.add(
+    """
+    Same with this text
+    it looks nice in the code
+    """
+)
+print(builder)
+```
+
+This produces:
+```
+This text is indented in the code
+but will be dedented in the output
+Same with this text
+it looks nice in the code
+```
+
+To preserve indentation, set `should_dedent=False`:
+
+```python
+builder = Builder()
+builder.add("    Keep this indented", should_dedent=False)
+```
+
+
+### Adding Blank Lines
+
+There are several ways to add blank lines with the Builder:
+
+#### Using `blanks_between`
+
+The `blanks_between` parameter inserts blanks between multiple parts in a single `add()` call:
+
+```python
+builder = Builder()
+builder.add(
+    "Section 1",
+    "Section 2",
+    "Section 3",
+    blanks_between=1,
+)
+print(builder)
+```
+
+This outputs:
+```
+Section 1
+
+Section 2
+
+Section 3
+```
+
+Note that `blanks_between` only applies within a single `add()` call. Multiple `add()` calls will not insert blanks
+between them by default:
+
+```python
+builder = Builder()
+builder.add("First call")
+builder.add("Second call")
+print(builder)
+```
+
+This produces:
+```
+First call
+Second call
+```
+
+#### Using `blanks_before` and `blanks_after`
+
+To add blanks before or after a group of parts, use the `blanks_before` and `blanks_after` parameters:
+
+```python
+builder = Builder()
+builder.add("first")
+builder.add("second", blanks_before=1, blanks_after=1)
+builder.add("third")
+print(builder)
+```
+
+This outputs:
+```
+first
+
+second
+
+third
+```
+
+These parameters work with both `add()` and `extend()` methods.
+
+#### Using `add_blank()` and `add_blanks()`
+
+For more explicit control, you can use the `add_blank()` and `add_blanks()` methods:
+
+```python
+builder = Builder()
+builder.add("first")
+builder.add_blanks(2)
+builder.add("second")
+print(builder)
+```
+
+This outputs:
+```
+first
+
+
+second
+```
+
+
+### Customizing the Join String
+
+By default, parts are joined with newlines, but you can customize this:
+
+```python
+builder = Builder(join_str=" | ")
+builder.add("one", "two", "three")
+print(builder)
+```
+
+This outputs:
+```
+one | two | three
+```
+
+
+### Customizing Blank Lines
+
+You can also customize what a "blank" line looks like:
+
+```python
+builder = Builder(blank="---")
+builder.add("First", "Second", blanks_between=2)
+print(builder)
+```
+
+This produces:
+```
+First
+---
+---
+Second
+```
+
+
+### Practical Example
+
+Here's a realistic example of building a formatted report:
+
+```python
+from snick import Builder
+
+def generate_report(title, items, footer):
+    builder = Builder()
+
+    builder.add(f"=== {title} ===", blanks_after=1)
+
+    if items:
+        builder.add("Items:")
+        builder.extend((f"  {i}. {item}" for (i, item) in enumerate(items, 1)), should_dedent=False)
+    else:
+        builder.add("_No items found._")
+
+    builder.add(f"--- {footer} ---", blanks_before=1)
+    return builder
+
+
+print(generate_report("Daily Report", ["Task A", "Task B", "Task C"], "End of Report"))
+```
+
+This would output:
+```
+=== Daily Report ===
+
+Items:
+  1. Task A
+  2. Task B
+  3. Task C
+
+--- End of Report ---
 ```

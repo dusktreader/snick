@@ -1,15 +1,14 @@
 [project]
 name = "snick"
-version = "2.2.0"
-description = "Text gadgets that help with indentation"
+version = "3.0.0"
+description = "Text gadgets that help with indentation and a few other gizmos"
 authors = [
     {name = "Tucker Beck", email ="tucker.beck@gmail.com"},
 ]
 license = "MIT"
 readme = "README.md"
 license-files = ["LICENSE.md"]
-requires-python = ">=3.9"
-dependencies = ["pprintpp~=0.4"]
+requires-python = ">=3.10"
 
 [project.urls]
 homepage = "https://github.com/dusktreader/snick"
@@ -18,17 +17,17 @@ changelog = "https://github.com/dusktreader/snick/blob/main/CHANGELOG.md"
 
 [dependency-groups]
 dev = [
-    "basedpyright~=1.28",
-    "debugpy~=1.8",
-    "ipython~=8.18",
-    "mypy~=1.15",
-    "pyclean~=3.1",
-    "pytest~=8.3",
-    "pytest-cov~=6.0",
-    "pytest-pretty~=1.2",
-    "pytest-random-order~=1.1",
-    "ruff~=0.11",
-    "typos~=1.31",
+    "basedpyright>=1.37",
+    "debugpy>=1.8",
+    "ipython>=8.35",
+    "mypy>=1.19",
+    "pyclean>=3.5",
+    "pytest>=9.0",
+    "pytest-cov>=7.0",
+    "pytest-pretty>=1.3",
+    "pytest-random-order>=1.2",
+    "ruff>=0.14",
+    "typos>=1.42",
 ]
 
 
@@ -58,25 +57,15 @@ pretty = true
 files = ["src/snick", "tests"]
 
 
-[[tool.mypy.overrides]]
-module = ["pprintpp"]
-ignore_missing_imports = true
-
-
 [tool.basedpyright]
 reportAny = false
 reportExplicitAny = false
-# reportUnusedCallResult = false
 
 
 [tool.typos.default]
 extend-ignore-identifiers-re = []
 
 
-[tool.hatch.build.targets.wheel]
-packages = ["src/snick"]
-
-
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["uv_build>=0.9.26,<0.10.0"]
+build-backend = "uv_build"

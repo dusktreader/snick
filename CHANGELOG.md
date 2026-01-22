@@ -9,6 +9,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 # Unreleased
 
 
+# v3.0.0 - 2026-01-22
+
+**BREAKING CHANGES:**
+- `pretty_format()` signature changed: removed unused `*args`, `width`, and `**kwargs` parameters
+- `pretty_format()` now uses a custom implementation with trailing commas on all items (similar to pprintpp style)
+- Removed `pprintpp` dependency - now uses only Python standard library
+
+**Other Changes:**
+- Dropped support for Python 3.9 (now requires Python 3.10+)
+- Switched to `uv` build backend (from hatchling)
+- Improved type annotations with no type checker warnings
+
+
+# v2.3.0 - 2026-01-22
+
+- Added `Builder` class for incrementally constructing multi-line strings
+
+
 # v2.2.0 - 2025-05-19
 
 - Added `strip_trailing_whitespace()` method.
