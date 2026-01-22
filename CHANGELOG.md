@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 # Unreleased
 
 
+# v2.3.0 - 2026-01-22
+
+- Added `Builder` class for incrementally constructing multi-line strings
+
+
 # v2.2.0 - 2025-05-19
 
 - Added `strip_trailing_whitespace()` method.

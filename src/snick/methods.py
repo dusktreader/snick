@@ -3,7 +3,7 @@ import sys
 import textwrap
 from typing import TextIO, Any, cast
 
-import pprintpp  # pyright: ignore[reportMissingTypeStubs]
+import pprintpp  # basedpyright: ignore[reportMissingTypeStubs]
 
 
 def indent(text: str, prefix: str = "    ", skip_first_line: bool = False, **kwargs: Any) -> str:
