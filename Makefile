@@ -77,7 +77,7 @@ ITALIC := \033[3m
 _confirm:  # Requires confirmation before proceeding (Do not use directly)
 	@if [[ -z "$(CONFIRM)" ]]; \
 	then \
-		@echo -n "Are you sure? [y/N] " && read ans && [ $${ans:-N} = y ]; \
+		echo -n "Are you sure? [y/N] " && read ans && [ $${ans:-N} = y ]; \
 	fi
 
 
