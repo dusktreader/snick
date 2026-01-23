@@ -1,3 +1,5 @@
+from typing_extensions import override
+
 import snick
 
 
@@ -225,6 +227,72 @@ def test_pretty_format():
           }
         """
     )
+
+
+def test_pretty_format_exotic_types():
+    from datetime import datetime, date, time
+    from decimal import Decimal
+    from typing import Any
+    
+    class CustomClass:
+        def __init__(self, value: Any) -> None:
+            self.value: Any = value
+        
+        @override
+        def __repr__(self) -> str:
+            return f"<CustomClass: {self.value}>"
+
+    # Create test data with various exotic types
+    test_dt = datetime(2026, 1, 22, 20, 15, 30)
+    test_date = date(2026, 1, 22)
+    test_time = time(20, 15, 30)
+    test_decimal = Decimal("123.45")
+    custom_obj = CustomClass("test_value")
+
+    data = {
+        "datetime": test_dt,
+        "date": test_date,
+        "time": test_time,
+        "decimal": test_decimal,
+        "custom_object": custom_obj,
+        "none_value": None,
+        "bool_true": True,
+        "bool_false": False,
+        "nested": {
+            "list_of_objects": [test_dt, test_date, custom_obj],
+            "tuple_of_mixed": (1, "string", test_decimal, None),
+        },
+    }
+
+    result = snick.pretty_format(data)
+
+    expected = snick.dedent(f"""
+        {{
+          'datetime': {test_dt!r},
+          'date': {test_date!r},
+          'time': {test_time!r},
+          'decimal': {test_decimal!r},
+          'custom_object': {custom_obj!r},
+          'none_value': None,
+          'bool_true': True,
+          'bool_false': False,
+          'nested': {{
+            'list_of_objects': [
+              {test_dt!r},
+              {test_date!r},
+              {custom_obj!r},
+            ],
+            'tuple_of_mixed': (
+              1,
+              'string',
+              {test_decimal!r},
+              None,
+            ),
+          }},
+        }}
+    """)
+
+    assert result == expected
 
 
 def test_enboxify():

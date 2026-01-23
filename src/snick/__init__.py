@@ -1,3 +1,4 @@
+from snick.conjoiner import Conjoiner
 from snick.methods import (
     conjoin,
     dedent,
@@ -14,6 +15,7 @@ from snick.methods import (
 )
 
 __all__ = [
+    "Conjoiner",
     "dedent",
     "conjoin",
     "dedent_all",
