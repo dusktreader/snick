@@ -40,7 +40,7 @@ docs/serve:  ## Build the docs and start a local dev server
 ## ==== Other Commands =================================================================================================
 
 publish: _confirm  ## Publish the package by pushing a tag with the current version
-	@if [[ "$$(git rev-parse --abbrev-ref HEAD)" != "main" ]] then \
+	@if [[ "$$(git rev-parse --abbrev-ref HEAD)" != "main" ]]; then \
 		echo "You must be on the main branch to publish." && exit 1; \
 	fi
 	@git tag v$$(uv version --short) && git push origin v$$(uv version --short)
