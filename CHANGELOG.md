@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 # Unreleased
 
 
+# v3.1.0 - 2026-03-27
+
+- Added `separator` parameter to `unwrap()` method.
+- Migrated to ty and dropped mypy and basedpyright
+
+
 # v3.0.0 - 2026-01-22
 
 **BREAKING CHANGES:**

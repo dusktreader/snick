@@ -11,8 +11,7 @@ qa/test:  ## Run the tests
 	@uv run pytest
 
 qa/types:  ## Run static type checks
-	@uv run mypy ${PACKAGE_TARGET} tests --pretty
-	@uv run basedpyright ${PACKAGE_TARGET} tests
+	@uv run ty check ${PACKAGE_TARGET} tests
 
 qa/lint:  ## Run linters
 	@uv run ruff check ${PACKAGE_TARGET} tests
@@ -54,7 +53,6 @@ clean:  ## Clean up build artifacts and other junk
 	@rm -rf dist
 	@rm -rf .ruff_cache
 	@rm -rf .pytest_cache
-	@rm -rf .mypy_cache
 	@rm -f .coverage*
 	@rm -f .junit.xml
 

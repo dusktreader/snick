@@ -56,15 +56,16 @@ def dedent_all(*texts: str, should_strip: bool = True, join_str: str = "\n") -> 
     return conjoin(*(dedent(t, should_strip=should_strip) for t in texts), join_str=join_str)
 
 
-def unwrap(text: str, should_strip: bool = True) -> str:
+def unwrap(text: str, should_strip: bool = True, separator: str = " ") -> str:
     """
     Convert a paragraph of (possibly) indented, wrapped text and unwrap it into a single line.
 
     Args:
         text:         The text to unwrap
         should_strip: If set to `True`, strip leading whitespace. Passed on to `dedent()`.
+        separator:    The separator to use when joining the lines. Defaults to a single space.
     """
-    return " ".join(dedent(text, should_strip=should_strip).split("\n"))
+    return separator.join(dedent(text, should_strip=should_strip).split("\n"))
 
 
 def strip_whitespace(text: str) -> str:

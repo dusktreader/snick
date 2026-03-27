@@ -1,6 +1,6 @@
 [project]
 name = "snick"
-version = "3.0.0"
+version = "3.1.0"
 description = "Text gadgets that help with indentation and a few other gizmos"
 authors = [
     {name = "Tucker Beck", email ="tucker.beck@gmail.com"},
@@ -9,6 +9,9 @@ license = "MIT"
 readme = "README.md"
 license-files = ["LICENSE.md"]
 requires-python = ">=3.10"
+dependencies = [
+    "typing_extensions>=4.0; python_version < '3.12'",
+]
 
 [project.urls]
 homepage = "https://github.com/dusktreader/snick"
@@ -17,14 +20,13 @@ changelog = "https://github.com/dusktreader/snick/blob/main/CHANGELOG.md"
 
 [dependency-groups]
 dev = [
-    "basedpyright>=1.37",
     "debugpy>=1.8",
     "ipython>=8.35",
     "mkdocs>=1.6",
     "mkdocs-material>=9.5",
     "mkdocstrings[python]>=0.27",
-    "mypy>=1.19",
     "pyclean>=3.5",
+    "ty>=0.0.26",
     "pytest>=9.0",
     "pytest-cov>=7.0",
     "pytest-pretty>=1.3",
@@ -53,16 +55,6 @@ addopts = [
 [tool.ruff]
 line-length = 120
 src = ["src/snick", "tests"]
-
-
-[tool.mypy]
-pretty = true
-files = ["src/snick", "tests"]
-
-
-[tool.basedpyright]
-reportAny = false
-reportExplicitAny = false
 
 
 [tool.typos.default]

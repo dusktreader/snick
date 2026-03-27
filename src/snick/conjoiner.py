@@ -5,9 +5,7 @@ import sys
 if sys.version_info >= (3, 12):
     from typing import override
 else:
-
-    def override(f):  # pyright: ignore[reportUnreachable]
-        return f
+    from typing_extensions import override
 
 
 from snick.methods import dedent

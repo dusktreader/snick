@@ -1,4 +1,9 @@
-from typing_extensions import override
+import sys
+
+if sys.version_info >= (3, 12):
+    from typing import override
+else:
+    from typing_extensions import override
 
 import snick
 
@@ -162,7 +167,7 @@ def test_indent__skip_first_line():
     assert snick.indent(dedented_text, skip_first_line=True) == expected_indented_text
 
 
-def test_unwrap():
+def test_unwrap__basic():
     indented_text = """
         this is indented text
         it looks nice.
@@ -174,6 +179,34 @@ def test_unwrap():
         "this is indented text it looks nice. I would like to remove leading space when I print it out"
     )
     assert snick.unwrap(indented_text) == expected_unwrapped_text
+
+
+def test_unwrap__separator():
+    indented_text = """
+        this is indented text
+        it looks nice.
+        I would like to remove
+        leading space
+        when I print it out
+    """
+    expected_unwrapped_text = (
+        "this is indented text--it looks nice.--I would like to remove--leading space--when I print it out"
+    )
+    assert snick.unwrap(indented_text, separator="--") == expected_unwrapped_text
+
+
+def test_unwrap__should_not_strip():
+    indented_text = """
+        this is indented text
+        it looks nice.
+        I would like to preserve
+        leading space
+        when I print it out
+    """
+    expected_unwrapped_text = (
+        " this is indented text it looks nice. I would like to preserve leading space when I print it out "
+    )
+    assert snick.unwrap(indented_text, should_strip=False) == expected_unwrapped_text
 
 
 def test_strip_whitespace():
@@ -233,11 +266,11 @@ def test_pretty_format_exotic_types():
     from datetime import datetime, date, time
     from decimal import Decimal
     from typing import Any
-    
+
     class CustomClass:
         def __init__(self, value: Any) -> None:
             self.value: Any = value
-        
+
         @override
         def __repr__(self) -> str:
             return f"<CustomClass: {self.value}>"
