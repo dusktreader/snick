@@ -1,37 +1,39 @@
 # snick
 
+![snick-hero](images/snick-hero.png){ .hero-image width=500 }
+
 **Handy gadgets for taming indented text**
 
-Stop wrestling with indented triple-quoted strings and awkward text formatting. snick makes it effortless to:
+A small collection of practical utilities for working with indented strings and text formatting:
 
-* **Dedent** triple-quoted strings while keeping your code beautifully indented
-* **Build** complex multi-line output programmatically with the powerful `Conjoiner` class
-* **Format** data structures with clean indentation and trailing commas
-* **Clean up** terminal output by stripping ANSI codes and whitespace
-* **Wrap and indent** long text blocks for logs and reports
+- **Dedent** triple-quoted strings without giving up indented code
+- **Build** multi-line output line by line with `Conjoiner`
+- **Format** data structures like `pprint`, but with `json.dumps`-style indentation and trailing commas
+- **Strip** ANSI codes and stray whitespace from terminal output
+- **Wrap and indent** text blocks for logs and reports
 
-All with **zero** dependencies.
+Built on the Python standard library. Nothing extra to install.
 
 
 ## Quickstart
 
 ### Requirements
 
-* Python 3.10 or greater
+- Python 3.10 or greater
 
 
 ### Installation
 
 Install the latest release from PyPI:
 
-```bash
+```shell
 pip install snick
 ```
 
 
-### Basic Usage
+### Basic usage
 
-Ever struggle with indented triple-quoted strings in your code?
+Dedent a triple-quoted string without sacrificing indented code:
 
 ```python linenums="1" title="dedent() example"
 import snick
@@ -50,8 +52,7 @@ def my_function():
 print(my_function())
 ```
 
-Output:
-```
+```text title="output"
 Oops! Something went wrong.
 Here's what happened:
     - The flux capacitor overheated
@@ -59,7 +60,7 @@ Here's what happened:
 Please try again later.
 ```
 
-Build complex output on the fly:
+Build multi-line output line by line:
 
 ```python linenums="1" title="Conjoiner example"
 def generate_report(name, tasks):
@@ -77,8 +78,7 @@ def generate_report(name, tasks):
 print(generate_report("Alice", ["Fix bug #123", "Review PR #456", "Deploy v2.0"]))
 ```
 
-Output:
-```
+```text title="output"
 Daily Report for Alice
 
 Completed Tasks:
@@ -87,7 +87,7 @@ Completed Tasks:
   ✓ Deploy v2.0
 ```
 
-Format data structures with proper indentation:
+Format a data structure with consistent indentation:
 
 ```python linenums="1" title="pretty_format() example"
 data = {
@@ -98,8 +98,7 @@ data = {
 print(snick.pretty_format(data))
 ```
 
-Output:
-```
+```text title="output"
 {
   'user': 'bob',
   'permissions': [
@@ -114,12 +113,23 @@ Output:
 }
 ```
 
+For more examples, see the [Features](features.md) page.
 
-For more examples and detailed documentation, see the [Features](features.md) page.
+
+!!! tip "See it in action"
+    The fastest way to get a feel for snick is to run the interactive demo:
+
+    ```shell
+    uvx --from=snick[demo] snick-demo
+    ```
+
+    No install required. See the [Demo](demo.md) page for a full overview of what it covers.
+
+    Prefer reading code? The [`examples/`](https://github.com/dusktreader/snick/tree/main/examples)
+    directory has a standalone script for every feature.
 
 
 ## What's with the name?
 
-There's really no very good synonyms for the verb, 'indent'. However, there are several for the act of creating a small
-dent in something. One of my favorites was 'snick'. It means "to cut a small notch or incision in". I think I'll use
-that!
+There aren't many good synonyms for the verb "indent", but there are a few for the act of making a small dent in
+something. "Snick" means "to cut a small notch or incision in." Close enough.

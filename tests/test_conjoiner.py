@@ -292,3 +292,56 @@ def test_conjoiner_extend_blanks_before_and_after():
         fourth
         """
     )
+
+
+def test_conjoiner_iadd_single_part():
+    conjoiner = Conjoiner()
+    conjoiner += "first line"
+    assert str(conjoiner) == "first line"
+
+
+def test_conjoiner_iadd_multiple_parts():
+    conjoiner = Conjoiner()
+    conjoiner += "first line"
+    conjoiner += "second line"
+    conjoiner += "third line"
+    assert str(conjoiner) == dedent(
+        """
+        first line
+        second line
+        third line
+        """
+    )
+
+
+def test_conjoiner_iadd_dedents():
+    conjoiner = Conjoiner()
+    conjoiner += """
+        line one
+        line two
+        """
+    assert str(conjoiner) == dedent(
+        """
+        line one
+        line two
+        """
+    )
+
+
+def test_conjoiner_iadd_returns_self():
+    conjoiner = Conjoiner()
+    original = conjoiner
+    conjoiner += "line"
+    assert conjoiner is original
+
+
+def test_conjoiner_iadd_after_add():
+    conjoiner = Conjoiner()
+    conjoiner.add("first")
+    conjoiner += "second"
+    assert str(conjoiner) == dedent(
+        """
+        first
+        second
+        """
+    )

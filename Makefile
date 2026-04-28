@@ -1,4 +1,4 @@
-PACKAGE_TARGET:=src/snick
+PACKAGE_TARGET:=src/snick src/snick_demo
 
 default: help
 
@@ -14,15 +14,26 @@ qa/types:  ## Run static type checks
 	@uv run ty check ${PACKAGE_TARGET} tests
 
 qa/lint:  ## Run linters
-	@uv run ruff check ${PACKAGE_TARGET} tests
+	@uv run ruff check ${PACKAGE_TARGET} tests examples
 	@uv run typos ${PACKAGE_TARGET} tests
 
 qa/full: qa/test qa/lint qa/types  ## Run the full set of quality checks
 	@echo "All quality checks pass!"
 
 qa/format:  ## Run code formatter
-	@uv run ruff check --select I --fix ${PACKAGE_TARGET} tests
-	@uv run ruff format ${PACKAGE_TARGET} tests
+	@uv run ruff check --select I --fix ${PACKAGE_TARGET} tests examples
+	@uv run ruff format ${PACKAGE_TARGET} tests examples
+
+
+## ==== Demo ===========================================================================================================
+
+demo: demo/run  ## Shortcut for demo/run
+
+demo/run:  ## Run the demo application
+	@uv run --extra=demo snick-demo
+
+demo/debug:  ## Run the demo application in debug mode
+	@uv run --extra=demo debugpy --listen localhost:5678 --wait-for-client snick-demo
 
 
 ## ==== Documentation ===================================================================================================
@@ -30,10 +41,10 @@ qa/format:  ## Run code formatter
 docs: docs/serve  ## Shortcut for docs/serve
 
 docs/build:  ## Build the documentation
-	@uv run mkdocs build --config-file=docs/mkdocs.yaml
+	@uv run --project docs --directory docs zensical build
 
 docs/serve:  ## Build the docs and start a local dev server
-	@uv run mkdocs serve --config-file=docs/mkdocs.yaml --dev-addr=localhost:10000
+	@uv run --project docs --directory docs zensical serve --dev-addr=localhost:10000
 
 
 ## ==== Other Commands =================================================================================================
@@ -65,6 +76,7 @@ help:  ## Show help message
 .ONESHELL:
 SHELL:=/bin/bash
 .PHONY: qa qa/test qa/types qa/lint qa/full qa/format \
+	demo demo/run demo/debug \
 	docs docs/build docs/serve \
 	publish \
 	clean help

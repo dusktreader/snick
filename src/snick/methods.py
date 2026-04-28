@@ -1,7 +1,7 @@
 import re
 import sys
 import textwrap
-from typing import TextIO, Any, cast
+from typing import Any, TextIO, cast
 
 
 def indent(text: str, prefix: str = "    ", skip_first_line: bool = False, **kwargs: Any) -> str:
@@ -112,33 +112,34 @@ def pretty_format(data: dict[Any, Any], indent: int = 2) -> str:
         data:   The data to pretty print.
         indent: The number of spaces per indentation level. Defaults to 2.
     """
+
     def _format(obj: Any, current_indent: int = 0) -> str:
-        indent_str = ' ' * current_indent
-        next_indent_str = ' ' * (current_indent + indent)
+        indent_str = " " * current_indent
+        next_indent_str = " " * (current_indent + indent)
 
         if isinstance(obj, dict):
             if not obj:
-                return '{}'
-            lines = ['{']
+                return "{}"  # pragma: no cover
+            lines = ["{"]
             dict_obj = cast(dict[Any, Any], obj)
             for key in dict_obj:
                 value = dict_obj[key]
                 formatted_value = _format(value, current_indent + indent)
                 lines.append(f"{next_indent_str}{repr(key)}: {formatted_value},")
             lines.append(f"{indent_str}}}")
-            return '\n'.join(lines)
+            return "\n".join(lines)
         elif isinstance(obj, (list, tuple)):
             if not obj:
-                return '[]' if isinstance(obj, list) else '()'
-            open_bracket = '[' if isinstance(obj, list) else '('
-            close_bracket = ']' if isinstance(obj, list) else ')'
+                return "[]" if isinstance(obj, list) else "()"  # pragma: no cover
+            open_bracket = "[" if isinstance(obj, list) else "("
+            close_bracket = "]" if isinstance(obj, list) else ")"
             lines = [open_bracket]
             seq_obj = cast(list[Any] | tuple[Any, ...], obj)
             for i in range(len(seq_obj)):
                 formatted_item = _format(seq_obj[i], current_indent + indent)
                 lines.append(f"{next_indent_str}{formatted_item},")
             lines.append(f"{indent_str}{close_bracket}")
-            return '\n'.join(lines)
+            return "\n".join(lines)
         else:
             return repr(obj)
 
@@ -185,4 +186,4 @@ def strip_ansi_escape_sequences(text: str) -> str:
 
     To learn more about these sequences, see: https://jakob-bagterp.github.io/colorist-for-python/ansi-escape-codes/
     """
-    return re.sub(r"\x1b\[[0-9;]+m", '', text)
+    return re.sub(r"\x1b\[[0-9;]+m", "", text)

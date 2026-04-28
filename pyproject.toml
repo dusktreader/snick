@@ -1,6 +1,6 @@
 [project]
 name = "snick"
-version = "3.1.0"
+version = "3.2.0"
 description = "Text gadgets that help with indentation and a few other gizmos"
 authors = [
     {name = "Tucker Beck", email ="tucker.beck@gmail.com"},
@@ -13,6 +13,16 @@ dependencies = [
     "typing_extensions>=4.0; python_version < '3.12'",
 ]
 
+[project.optional-dependencies]
+demo = [
+    "auto-name-enum>=3.0.0",
+    "rich>=14.3.1",
+    "typer>=0.21.1",
+]
+
+[project.scripts]
+snick-demo = "snick_demo.main:main"
+
 [project.urls]
 homepage = "https://github.com/dusktreader/snick"
 source = "https://github.com/dusktreader/snick"
@@ -22,9 +32,6 @@ changelog = "https://github.com/dusktreader/snick/blob/main/CHANGELOG.md"
 dev = [
     "debugpy>=1.8",
     "ipython>=8.35",
-    "mkdocs>=1.6",
-    "mkdocs-material>=9.5",
-    "mkdocstrings[python]>=0.27",
     "pyclean>=3.5",
     "ty>=0.0.26",
     "pytest>=9.0",
@@ -39,13 +46,17 @@ dev = [
 [tool.uv]
 package = true
 
+[tool.uv.build-backend]
+module-name = ["snick", "snick_demo"]
+module-root = "src"
+
 
 [tool.pytest.ini_options]
 addopts = [
     "--random-order",
     "--cov=src/snick",
     "--cov-report=term-missing",
-    "--cov-fail-under=85",
+    "--cov-fail-under=100",
     "--cov-report=xml:.coverage.xml",
     "--junitxml=.junit.xml",
     "--override-ini=junit_family=legacy",
@@ -54,7 +65,7 @@ addopts = [
 
 [tool.ruff]
 line-length = 120
-src = ["src/snick", "tests"]
+src = ["src/snick", "src/snick_demo", "tests", "examples"]
 
 
 [tool.typos.default]

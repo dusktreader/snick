@@ -1,0 +1,91 @@
+/* Parchment light */
+[data-md-color-scheme="default"] {
+    --md-hue: 30;
+
+    --md-primary-fg-color:             #7a4a2a;
+    --md-primary-fg-color--light:      #9c6b45;
+    --md-primary-fg-color--dark:       #4e2e18;
+    --md-primary-bg-color:             #f0ebe3;
+    --md-primary-bg-color--light:      #f5f1ec;
+
+    --md-accent-fg-color:              #a0522d;
+    --md-accent-fg-color--transparent: #a0522d20;
+    --md-accent-bg-color:              #f0ebe3;
+
+    --md-default-bg-color:             #f5f1ec;
+    --md-default-bg-color--light:      #ede8e0;
+    --md-default-bg-color--lighter:    #e4ddd3;
+    --md-default-bg-color--lightest:   #d9d0c4;
+
+    --md-default-fg-color:             #2c1f14;
+    --md-default-fg-color--light:      #5a3e2b;
+    --md-default-fg-color--lighter:    #8c6b50;
+    --md-default-fg-color--lightest:   #b59e8a;
+
+    --md-code-bg-color:                #ede8e0;
+    --md-code-fg-color:                #2c1f14;
+}
+
+/* Worn manuscript dark */
+[data-md-color-scheme="slate"] {
+    --md-hue: 25;
+
+    --md-primary-fg-color:             #c49a6c;
+    --md-primary-fg-color--light:      #d4b48a;
+    --md-primary-fg-color--dark:       #9c7a50;
+    --md-primary-bg-color:             #2e2519;
+    --md-primary-bg-color--light:      #3a2e20;
+
+    --md-accent-fg-color:              #c87941;
+    --md-accent-fg-color--transparent: #c8794120;
+    --md-accent-bg-color:              #2e2519;
+
+    --md-default-bg-color:             #1e1912;
+    --md-default-bg-color--light:      #26201a;
+    --md-default-bg-color--lighter:    #2e2820;
+    --md-default-bg-color--lightest:   #3a3028;
+
+    --md-default-fg-color:             #d4c9b8;
+    --md-default-fg-color--light:      #a89880;
+    --md-default-fg-color--lighter:    #7a6a56;
+    --md-default-fg-color--lightest:   #4e4030;
+
+    --md-code-bg-color:                #26201a;
+    --md-code-fg-color:                #d4c9b8;
+}
+
+/* Nav section headings */
+.md-nav__item--section > .md-nav__link {
+    color: var(--md-primary-fg-color);
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+/* Image alignment with text wrapping */
+.md-typeset img.float-right {
+    float: right;
+    width: 240px;
+    margin-left: 20px;
+    margin-bottom: 0;
+}
+
+.md-typeset img.float-left {
+    float: left;
+    width: 35%;
+    margin-right: 20px;
+    margin-bottom: 0;
+}
+
+/* Centered hero image */
+.md-typeset img.hero-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Disable capitalize on H5 so type names like (bool), (str), (int) render as-is */
+.md-typeset h5 {
+    text-transform: none;
+}

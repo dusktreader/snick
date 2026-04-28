@@ -6,17 +6,19 @@
 
 # snick
 
+![snick-hero](https://raw.githubusercontent.com/dusktreader/snick/main/docs/source/images/snick-hero.png)
+
 **Handy gadgets for taming indented text**
 
-Stop wrestling with indented triple-quoted strings and awkward text formatting. snick makes it effortless to:
+A small collection of practical utilities for working with indented strings and text formatting:
 
-* **Dedent** triple-quoted strings while keeping your code beautifully indented
-* **Build** complex multi-line output programmatically with the powerful `Conjoiner` class
-* **Format** data structures with clean indentation and trailing commas
-* **Clean up** terminal output by stripping ANSI codes and whitespace
-* **Wrap and indent** long text blocks for logs and reports
+* **Dedent** triple-quoted strings without giving up indented code
+* **Build** multi-line output line by line with `Conjoiner`
+* **Format** data structures like `pprint`, but with `json.dumps`-style indentation and trailing commas
+* **Strip** ANSI codes and stray whitespace from terminal output
+* **Wrap and indent** text blocks for logs and reports
 
-All with **zero** dependencies.
+Built on the Python standard library — nothing extra to install.
 
 
 ## Quickstart
@@ -35,99 +37,38 @@ pip install snick
 ```
 
 
-### Usage
-
-Ever struggle with indented triple-quoted strings in your code?
+### Quick taste
 
 ```python
 import snick
 
-def my_function():
-    return snick.dedent(
-        """
-        Oops! Something went wrong.
-        Here's what happened:
-            - The flux capacitor overheated
-            - Time circuits malfunctioned
-        Please try again later.
-        """
-    )
-
-print(my_function())
+message = snick.dedent(
+    """
+    The Force will be with you.
+    Always.
+    """
+)
+print(message)
 ```
 
-Output:
+Running this gives:
+
 ```
-Oops! Something went wrong.
-Here's what happened:
-    - The flux capacitor overheated
-    - Time circuits malfunctioned
-Please try again later.
+The Force will be with you.
+Always.
 ```
 
-Build complex output on the fly:
+To learn about all the features, see the [documentation](https://dusktreader.github.io/snick/).
 
-```python
-def generate_report(name, tasks):
-    report = snick.Conjoiner()
-    report.add(f"Daily Report for {name}", blanks_after=1)
 
-    if tasks:
-        report.add("Completed Tasks:")
-        report.extend(f"  ✓ {task}" for task in tasks)
-    else:
-        report.add("No tasks completed today.")
+## Try the demo
 
-    return str(report)
+The fastest way to see snick in action is to run the interactive demo. No
+install required:
 
-print(generate_report("Alice", ["Fix bug #123", "Review PR #456", "Deploy v2.0"]))
+```bash
+uvx --from=snick[demo] snick-demo
 ```
 
-Output:
-```
-Daily Report for Alice
-
-Completed Tasks:
-  ✓ Fix bug #123
-  ✓ Review PR #456
-  ✓ Deploy v2.0
-```
-
-Format data structures with proper indentation:
-
-```python
-data = {
-    'user': 'bob',
-    'permissions': ['read', 'write', 'execute'],
-    'metadata': {'created': '2026-01-22', 'active': True}
-}
-print(snick.pretty_format(data))
-```
-
-Output:
-```
-{
-  'user': 'bob',
-  'permissions': [
-    'read',
-    'write',
-    'execute',
-  ],
-  'metadata': {
-    'created': '2026-01-22',
-    'active': True,
-  },
-}
-```
-
-
-## Documentation
-
-The complete documentation can be found at the [snick documentation page](https://dusktreader.github.io/snick/)
-
-
-## What's with the name?
-
-There's really no very good synonyms for the verb, 'indent'. However, there are several for the act of creating a small
-dent in something. One of my favorites was 'snick'. It means "to cut a small notch or incision in". I think I'll use
-that!
+The demo walks through every feature, one function at a time. Each step shows
+the source code and its output, then asks whether to continue.

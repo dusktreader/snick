@@ -1,11 +1,11 @@
+import sys
 from collections.abc import Iterable
 from dataclasses import dataclass, field
-import sys
 
 if sys.version_info >= (3, 12):
     from typing import override
 else:
-    from typing_extensions import override
+    from typing_extensions import override  # pragma: no cover
 
 
 from snick.methods import dedent
@@ -27,6 +27,19 @@ class Conjoiner:
     @override
     def __str__(self) -> str:
         return self.join_str.join(self.parts)
+
+    def __iadd__(self, part: str) -> "Conjoiner":
+        """
+        Add a single part to the conjoiner using the `+=` operator.
+
+        Args:
+            part: A string part to add.
+
+        Returns:
+            This conjoiner instance.
+        """
+        self.add(part)
+        return self
 
     def add(
         self,
