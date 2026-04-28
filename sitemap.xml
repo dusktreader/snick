@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <url>
-         <loc>https://dusktreader.github.io/snick/</loc>
-         <lastmod>2026-03-27</lastmod>
-    </url>
-    <url>
-         <loc>https://dusktreader.github.io/snick/changelog/</loc>
-         <lastmod>2026-03-27</lastmod>
-    </url>
-    <url>
-         <loc>https://dusktreader.github.io/snick/features/</loc>
-         <lastmod>2026-03-27</lastmod>
-    </url>
-    <url>
-         <loc>https://dusktreader.github.io/snick/reference/</loc>
-         <lastmod>2026-03-27</lastmod>
-    </url>
+      <url>
+        <loc>https://dusktreader.github.io/snick/</loc>
+      </url>
+      <url>
+        <loc>https://dusktreader.github.io/snick/features/</loc>
+      </url>
+      <url>
+        <loc>https://dusktreader.github.io/snick/demo/</loc>
+      </url>
+      <url>
+        <loc>https://dusktreader.github.io/snick/reference/</loc>
+      </url>
 </urlset>
