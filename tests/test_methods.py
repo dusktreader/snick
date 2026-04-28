@@ -147,6 +147,40 @@ def test_indent__basic():
     assert snick.indent(dedented_text) == expected_indented_text
 
 
+def test_indent__custom_prefix():
+    text = "\n".join(
+        [
+            "this is non-indented text",
+            "it looks nice.",
+        ]
+    )
+    expected = "\n".join(
+        [
+            "  this is non-indented text",
+            "  it looks nice.",
+        ]
+    )
+    assert snick.indent(text, prefix="  ") == expected
+
+
+def test_indent__predicate():
+    text = "\n".join(
+        [
+            "this line should be indented",
+            "# this comment should not",
+            "this line should also be indented",
+        ]
+    )
+    expected = "\n".join(
+        [
+            "    this line should be indented",
+            "# this comment should not",
+            "    this line should also be indented",
+        ]
+    )
+    assert snick.indent(text, predicate=lambda line: not line.startswith("#")) == expected
+
+
 def test_indent__skip_first_line():
     dedented_text = "\n".join(
         [
@@ -245,6 +279,30 @@ def test_indent_wrap():
     assert snick.indent_wrap(unindented_text, width=20) == expected_wrapped_text
 
 
+def test_pretty_print():
+    import io
+
+    stream = io.StringIO()
+    snick.pretty_print({"a": 1, "b": 2}, stream=stream)
+    assert stream.getvalue() == snick.pretty_format({"a": 1, "b": 2}) + "\n"
+
+
+def test_pretty_print__custom_indent():
+    import io
+
+    stream = io.StringIO()
+    snick.pretty_print({"a": {"b": 1}}, indent=4, stream=stream)
+    assert stream.getvalue() == snick.pretty_format({"a": {"b": 1}}, indent=4) + "\n"
+
+
+def test_pretty_print__custom_stream():
+    import io
+
+    stream = io.StringIO()
+    snick.pretty_print({"a": 1}, stream=stream)
+    assert stream.getvalue() == snick.pretty_format({"a": 1}) + "\n"
+
+
 def test_pretty_format():
     assert snick.pretty_format({"a": {"b": 1, "c": {"d": 2}, "e": 3}, "f": 4}) == snick.dedent(
         """
@@ -263,7 +321,7 @@ def test_pretty_format():
 
 
 def test_pretty_format_exotic_types():
-    from datetime import datetime, date, time
+    from datetime import date, datetime, time
     from decimal import Decimal
     from typing import Any
 
@@ -346,6 +404,74 @@ def test_enboxify():
         """
     )
     assert snick.enboxify(indented_unboxed_text) == expected_boxed_text
+
+    assert snick.enboxify(indented_unboxed_text) == expected_boxed_text
+
+
+def test_enboxify__custom_boxchar():
+    text = "hi there"
+    expected = snick.dedent(
+        """
+        ############
+        # hi there #
+        ############
+        """
+    )
+    assert snick.enboxify(text, boxchar="#") == expected
+
+
+def test_enboxify__hspace():
+    text = "hi there"
+    expected = snick.dedent(
+        """
+        ****************
+        *   hi there   *
+        ****************
+        """
+    )
+    assert snick.enboxify(text, hspace=3) == expected
+
+
+def test_enboxify__vspace():
+    text = "hi there"
+    expected = snick.dedent(
+        """
+        ************
+        *          *
+        * hi there *
+        *          *
+        ************
+        """
+    )
+    assert snick.enboxify(text, vspace=1) == expected
+
+
+def test_enboxify__should_strip_false():
+    text = "\n  hi there  \n"
+    result = snick.enboxify(text, should_strip=False)
+    assert "hi there" in result
+    assert result.startswith("*")
+
+
+def test_enboxify__invalid_boxchar():
+    import pytest
+
+    with pytest.raises(Exception):
+        snick.enboxify("text", boxchar="**")
+
+
+def test_enboxify__invalid_hspace():
+    import pytest
+
+    with pytest.raises(Exception):
+        snick.enboxify("text", hspace=-1)
+
+
+def test_enboxify__invalid_vspace():
+    import pytest
+
+    with pytest.raises(Exception):
+        snick.enboxify("text", vspace=-1)
 
 
 def test_strip_ansi_escape_sequences():

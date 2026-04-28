@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 # Unreleased
 
 
+# v3.2.0 - 2026-04-27
+
+- Migrated docs site from MkDocs Material to Zensical with a custom parchment/manuscript theme.
+- Overhauled feature docs with verified parameter examples and corrected signatures throughout.
+- Fixed incorrect `enboxify` parameter names in docs (`width`/`box_char` -> `boxchar`/`hspace`/`vspace`).
+- Added `snick-demo` CLI app with interactive examples for every public function.
+- Added standalone `examples/` scripts mirroring the demo modules.
+- Expanded test suite with full parameter coverage for `indent`, `enboxify`, and `pretty_print`.
+- Set coverage threshold to 100%.
+
+
 # v3.1.0 - 2026-03-27
 
 - Added `separator` parameter to `unwrap()` method.
